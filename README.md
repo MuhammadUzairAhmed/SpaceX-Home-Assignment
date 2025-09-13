@@ -44,6 +44,8 @@ The app fetches launches from the [SpaceX API v5](https://api.spacexdata.com/v5/
 
 ## 📂 Project Structure
 
+```text
+.
 ├── components/
 │ ├── Pagination.js
 │ ├── Loading.js
