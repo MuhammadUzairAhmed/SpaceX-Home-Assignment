@@ -29,7 +29,7 @@ The app fetches launches from the [SpaceX API v5](https://api.spacexdata.com/v5/
   Preloads the first mission patch image for better LCP.  
 
 - **Testing**  
-  Pure pagination logic (`buildPageList`) covered with Jest.  
+  Pure pagination logic (`buildPageList`) and `formatDate()` helper covered with Jest.  
 
 ---
 
@@ -59,7 +59,10 @@ The app fetches launches from the [SpaceX API v5](https://api.spacexdata.com/v5/
 ├── styles/
 │ ├── globals.css
 │ └── Home.module.css
+├── utils/
+│   └── formatDate.js
 ├── __tests__/
+│ ├── formatDate.test.js
 │ └── Pagination.test.js
 ├── constants/
 │ └── index.js

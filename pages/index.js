@@ -1,4 +1,4 @@
-import {  Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
@@ -9,6 +9,7 @@ import Loading from "@/components/Loading";
 import ErrorState from "@/components/Error";
 import { useLaunches } from "@/hooks/useLaunches";
 import { PAGE_SIZE } from "@/constants";
+import { formatDate } from "@/utils/formatDate";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400"] });
 
@@ -20,69 +21,66 @@ export default function Home() {
   );
 
   const renderCard = (launch, i) => {
-    const formattedDate = (date) =>
-      date.slice(0, 10).split("-").reverse().join("-");
 
     const status =
       launch.success === true
         ? "success"
         : launch.success === false
-        ? "failure"
-        : "upcoming";
+          ? "failure"
+          : "upcoming";
 
-   return (
-  <article key={launch.id || i} className={styles.launch_card}>
-    {launch?.links?.patch?.small && (
-      <Image
-        className={styles.img}
-        src={launch.links.patch.small}
-        alt="Rocket Patch"
-        width={200}
-        height={200}
-        priority={i === 0 && currentPage === 1}
-      />
-    )}
+    return (
+      <article key={launch.id || i} className={styles.launch_card}>
+        {launch?.links?.patch?.small && (
+          <Image
+            className={styles.img}
+            src={launch.links.patch.small}
+            alt="Rocket Patch"
+            width={200}
+            height={200}
+            priority={i === 0 && currentPage === 1}
+          />
+        )}
 
-    <h2 className={styles.title}>{launch.name}</h2>
+        <h2 className={styles.title}>{launch.name}</h2>
 
-    <div className={`${styles.card__content} ${styles.stack}`}>
-      {launch.date_utc && (
-        <p className={styles.meta}>
-          <span className={styles.label}>Date:</span>{" "}
-          {formattedDate(launch.date_utc)}
-        </p>
-      )}
+        <div className={`${styles.card__content} ${styles.stack}`}>
+          {launch.date_utc && (
+            <p className={styles.meta}>
+              <span className={styles.label}>Date:</span>{" "}
+              {formatDate(launch.date_utc)}
+            </p>
+          )}
 
-      {/* Status pill */}
-      <span
-        className={`${styles.status} ${
-          styles[
-            status === "success"
-              ? "status--success"
-              : status === "failure"
-              ? "status--failure"
-              : "status--upcoming"
-          ]
-        }`}
-      >
-        {status}
-      </span>
+          {/* Status pill */}
+          <span
+            className={`${styles.status} ${styles[
+              status === "success"
+                ? "status--success"
+                : status === "failure"
+                  ? "status--failure"
+                  : "status--upcoming"
+              ]
+              }`}
+          >
+            {status}
+          </span>
 
-      {launch.details && (
-        <p className={`${styles.details} ${styles.clamp}`}>
-          {launch.details}
-        </p>
-      )}
+          {launch.details && (
+            <p className={`${styles.details} ${styles.clamp}`}>
+              {launch.details}
+            </p>
+          )}
 
-      {launch.failures && launch.failures[0] && !launch.success && (
-        <p className={styles.meta}>
-          <span className={styles.label}>Failure Reason:</span>{" "}
-          {launch.failures[0].reason}
-        </p>
-      )}
-    </div>
-  </article>
-);
+          {launch.failures && launch.failures[0] && !launch.success && (
+            <p className={styles.meta}>
+              <span className={styles.label}>Failure Reason:</span>{" "}
+              {launch.failures[0].reason}
+            </p>
+          )}
+        </div>
+      </article>
+    );
   };
 
   return (
